@@ -1,0 +1,28 @@
+﻿<Window x:Class="Korean_Flash_Cards.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Korean_Flash_Cards"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="420" Width="600" ResizeMode="NoResize">
+    <Grid>
+        <TextBox Name="inputTextBox" Height="48" Width="340" HorizontalAlignment="Center"
+                 VerticalAlignment="Top" FontSize="24" Margin="0, 72, 0, 0" 
+                 TextAlignment="Center" BorderBrush="Black" VerticalContentAlignment="Center"
+                 HorizontalContentAlignment="Center" KeyDown="inputTextBox_KeyDown"/>
+        <Button Name="checkAnswerButton" HorizontalAlignment="Center" Margin="0,0,180,0" VerticalAlignment="Center"
+                Content="Check Answer" Width="120" Height="36" PreviewMouseDown="checkAnswerButton_MouseDown"/>
+        <Button Name="skipAnswerButton" HorizontalAlignment="Center" Margin="180,0,0,0" VerticalAlignment="Center"
+                Content="Skip Answer" Width="120" Height="36" PreviewMouseDown="skipAnswerButton_PreviewMouseDown"/>
+        <Label Name="flashCardTextBox" Height="48" Width="340" HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" FontSize="24" Margin="0, 0, 0, 72" 
+                BorderThickness="1" BorderBrush="Black" HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+        <Label Name="flashCardsLeftText" Height="36" Width="Auto" VerticalAlignment="Bottom"
+               HorizontalAlignment="Center" Margin="0,0,0,20" Content="Flash Cards Left:"/>
+        <Label Name="flashCardsLeftCounter" Height="36" Width="Auto" VerticalAlignment="Bottom"
+               HorizontalAlignment="Center" Margin="0,0,0,0" FontSize="14" />
+
+    </Grid>
+</Window>
