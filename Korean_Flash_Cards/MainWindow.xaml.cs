@@ -18,7 +18,7 @@ namespace Korean_Flash_Cards
 {
     /// <summary>
     /// 
-    /// ----------------------------------------
+    /// ---------------------------------------
     /// THINGS TO DO: 
     /// 
     /// 1. Change random so that it doesn't return the same card again.
@@ -29,7 +29,7 @@ namespace Korean_Flash_Cards
     /// 
     /// 4. Think of more things to do . . .
     /// 
-    /// ----------------------------------------
+    /// ---------------------------------------
     /// </summary>
     public partial class MainWindow : Window
     {
