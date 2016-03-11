@@ -14,7 +14,7 @@
         <Button Name="checkAnswerButton" HorizontalAlignment="Center" Margin="0,0,180,0" VerticalAlignment="Center"
                 Content="Check Answer" Width="120" Height="36" PreviewMouseDown="checkAnswerButton_MouseDown"/>
         <Button Name="skipAnswerButton" HorizontalAlignment="Center" Margin="180,0,0,0" VerticalAlignment="Center"
-                Content="Skip Answer" Width="120" Height="36" PreviewMouseDown="skipAnswerButton_PreviewMouseDown"/>
+                Content="Show Me" Width="120" Height="36" PreviewMouseDown="skipAnswerButton_PreviewMouseDown"/>
         <Label Name="flashCardTextBox" Height="48" Width="340" HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" FontSize="24" Margin="0, 0, 0, 72" 
                 BorderThickness="1" BorderBrush="Black" HorizontalContentAlignment="Center"

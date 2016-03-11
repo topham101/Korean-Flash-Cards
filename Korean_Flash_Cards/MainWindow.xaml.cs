@@ -21,26 +21,27 @@ namespace Korean_Flash_Cards
     /// ---------------------------------------
     /// THINGS TO DO: 
     /// 
-    /// 1. Change random so that it doesn't return the same card again.
-    /// 
     /// 3. Think of a better way to read in new flash cards.
     /// 
     /// 4. Think of more things to do . . .
+    /// 
+    /// 5. Text to say the answer was wrong.
     /// 
     /// ---------------------------------------
     /// </summary>
     public partial class MainWindow : Window
     {
         private List<flashCard> flashCardList;
-        private int _UnreadCardsCount = 0;
+        private int _UnreadCardsCount = 0, curFlashCardIndex = -1, lastFlashCardIndex = -1;
+        private bool answerDisplayed = false;
         public int UnreadCardsCount {
             get { return _UnreadCardsCount; }
             set {
                 _UnreadCardsCount = value;
                 flashCardsLeftCounter.Content = value; }
         }
-        private int curFlashCardIndex = -1, lastFlashCardIndex = -1;
         private string answerString;
+
         public MainWindow()
         {
             DataContext = this;
@@ -81,9 +82,9 @@ namespace Korean_Flash_Cards
         {
             inputTextBox.Clear();
             Random rnd = new Random();
-            int EngOrKor = rnd.Next(1);
-            flashCardTextBox.Content = (EngOrKor == 0 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
-            answerString = (EngOrKor == 1 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
+            int firstOrSecondLang = rnd.Next(1);
+            flashCardTextBox.Content = (firstOrSecondLang == 0 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
+            answerString = (firstOrSecondLang == 1 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
 
             // Sets keyboard focus to the input box
             Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(delegate ()
@@ -104,17 +105,28 @@ namespace Korean_Flash_Cards
         /// </summary>
         private void checkInputToAnswer()
         {
-            // If the answer is correct . . .
-            if (inputTextBox.Text.ToLower() == answerString.ToLower())
+            if (!answerDisplayed)
             {
-                newCard(true);
-                inputTextBox.BorderBrush = Brushes.Black;
-                inputTextBox.BorderThickness = new Thickness(1);
+                // If the answer is correct . . .
+                if (inputTextBox.Text.ToLower() == answerString.ToLower())
+                {
+                    newCard(true);
+                    inputTextBox.BorderBrush = Brushes.Black;
+                    inputTextBox.BorderThickness = new Thickness(1);
+                }
+                else // If the answer is incorrect . . .
+                {
+                    inputTextBox.BorderBrush = Brushes.Red;
+                    inputTextBox.BorderThickness = new Thickness(2);
+                }
             }
-            else // If the answer is incorrect . . .
+            else
             {
-                inputTextBox.BorderBrush = Brushes.Red;
-                inputTextBox.BorderThickness = new Thickness(2);
+                checkAnswerButton.Content = "Check Answer";
+                if (UnreadCardsCount > 1)
+                    newCard(false);
+                else newCard(true);
+                answerDisplayed = false;
             }
         }
         private void checkAnswerButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -128,7 +140,16 @@ namespace Korean_Flash_Cards
         }
         private void skipAnswerButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            newCard(false);
+            if (answerDisplayed)
+            {
+                checkAnswerButton.Content = "Check Answer";
+            }
+            else
+            {
+                checkAnswerButton.Content = "Next Card";
+                inputTextBox.Text = answerString;
+                answerDisplayed = true;
+            }
         }
         private int NoOfUnreadCardsLeft()
         {
