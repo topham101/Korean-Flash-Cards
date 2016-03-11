@@ -23,8 +23,6 @@ namespace Korean_Flash_Cards
     /// 
     /// 1. Change random so that it doesn't return the same card again.
     /// 
-    /// 2. Make red border thicker.
-    /// 
     /// 3. Think of a better way to read in new flash cards.
     /// 
     /// 4. Think of more things to do . . .
@@ -41,7 +39,7 @@ namespace Korean_Flash_Cards
                 _UnreadCardsCount = value;
                 flashCardsLeftCounter.Content = value; }
         }
-        private int lastFlashCardIndex = -1;
+        private int curFlashCardIndex = -1, lastFlashCardIndex = -1;
         private string answerString;
         public MainWindow()
         {
@@ -59,19 +57,20 @@ namespace Korean_Flash_Cards
         {
             // Sets the last flashCard used to completed
             if (complete)
-                flashCardList[lastFlashCardIndex].setComplete();
+                flashCardList[curFlashCardIndex].setComplete();
 
             // Checks that there are any uncompleted flashCards left. - If not the cards are reset.
             if (NoOfUnreadCardsLeft() == 0)
                 resetAllFlashCards();
 
             //Finds a new card that has not been completed.
+            lastFlashCardIndex = curFlashCardIndex;
             while (true)
-                if (!flashCardList.GetRandom(out lastFlashCardIndex).completed)
+                if (!flashCardList.GetRandomExc(out curFlashCardIndex, lastFlashCardIndex).completed)
                     break;
 
             // Sets the flashCard at the specified index to completed
-            refreshFlashCardInterface(flashCardList.ElementAt(lastFlashCardIndex));
+            refreshFlashCardInterface(flashCardList.ElementAt(curFlashCardIndex));
         }
 
         /// <summary>
