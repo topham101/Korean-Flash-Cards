@@ -82,8 +82,8 @@ namespace Korean_Flash_Cards
             inputTextBox.Clear();
             Random rnd = new Random();
             int EngOrKor = rnd.Next(1);
-            flashCardTextBox.Content = (EngOrKor == 0 ? newFlashCard.english : newFlashCard.korean);
-            answerString = (EngOrKor == 1 ? newFlashCard.english : newFlashCard.korean);
+            flashCardTextBox.Content = (EngOrKor == 0 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
+            answerString = (EngOrKor == 1 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
 
             // Sets keyboard focus to the input box
             Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(delegate ()
