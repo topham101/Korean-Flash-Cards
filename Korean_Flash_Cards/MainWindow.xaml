@@ -5,24 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Korean_Flash_Cards"
         mc:Ignorable="d"
-        Title="MainWindow" Height="420" Width="600" ResizeMode="NoResize">
+        Title="Flash Cards" Height="420" Width="600" ResizeMode="NoResize">
     <Grid>
-        <TextBox Name="inputTextBox" Height="48" Width="340" HorizontalAlignment="Center"
-                 VerticalAlignment="Top" FontSize="24" Margin="0, 72, 0, 0" 
-                 TextAlignment="Center" BorderBrush="Black" VerticalContentAlignment="Center"
-                 HorizontalContentAlignment="Center" KeyDown="inputTextBox_KeyDown"/>
-        <Button Name="checkAnswerButton" HorizontalAlignment="Center" Margin="0,0,180,0" VerticalAlignment="Center"
-                Content="Check Answer" Width="120" Height="36" PreviewMouseDown="checkAnswerButton_MouseDown"/>
-        <Button Name="skipAnswerButton" HorizontalAlignment="Center" Margin="180,0,0,0" VerticalAlignment="Center"
-                Content="Show Me" Width="120" Height="36" PreviewMouseDown="skipAnswerButton_PreviewMouseDown"/>
-        <Label Name="flashCardTextBox" Height="48" Width="340" HorizontalAlignment="Center"
-                VerticalAlignment="Bottom" FontSize="24" Margin="0, 0, 0, 72" 
-                BorderThickness="1" BorderBrush="Black" HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
-        <Label Name="flashCardsLeftText" Height="36" Width="Auto" VerticalAlignment="Bottom"
-               HorizontalAlignment="Center" Margin="0,0,0,20" Content="Flash Cards Left:"/>
-        <Label Name="flashCardsLeftCounter" Height="36" Width="Auto" VerticalAlignment="Bottom"
-               HorizontalAlignment="Center" Margin="0,0,0,0" FontSize="14" />
+        <TabControl x:Name="FlashCardTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem Header="Flash Cards" TabIndex="0">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox Name="InputTextBox" Height="48" Width="340" HorizontalAlignment="Center"
+                             VerticalAlignment="Top" FontSize="24" Margin="0, 72, 0, 0" 
+                             TextAlignment="Center" BorderBrush="Black" VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center" KeyDown="inputTextBox_KeyDown"/>
+                    <Button Name="CheckAnswerButton" HorizontalAlignment="Center" Margin="0,0,180,0" 
+                            VerticalAlignment="Center" Content="Check Answer" Width="120" Height="36" 
+                            PreviewMouseDown="checkAnswerButton_MouseDown"/>
+                    <Button Name="SkipAnswerButton" HorizontalAlignment="Center" Margin="180,0,0,0" 
+                            VerticalAlignment="Center" Content="Show Me" Width="120" Height="36" 
+                            PreviewMouseDown="skipAnswerButton_PreviewMouseDown"/>
+                    <Label Name="FlashCardTextBox" Height="48" Width="340" HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom" FontSize="24" Margin="0, 0, 0, 72" 
+                            BorderThickness="1" BorderBrush="Black" HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+                    <Label Name="FlashCardsLeftText" Height="36" Width="Auto" VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center" Margin="0,0,0,20" Content="Flash Cards Left:"/>
+                    <Label Name="FlashCardsLeftCounter" Height="36" Width="Auto" VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center" Margin="0,0,0,0" FontSize="14" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="New Card" TabIndex="0">
+                <Grid Background="#FFE5E5E5">
+                    <Label Name="FirstLangInputTextBox1Label" Height="30" Width="Auto" 
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,25,0,0"
+                           Content="First Language Word" />
+                    <TextBox Name="FirstLangInputTextBox1" Height="40" Width="250" HorizontalAlignment="Left"
+                             VerticalAlignment="Top" FontSize="18" Margin="32,50,0,0" 
+                             TextAlignment="Left" BorderBrush="Black" VerticalContentAlignment="Center"/>
+                    <Label Name="SecondLangInputTextBox1Label" Height="30" Width="Auto" 
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,95,0,0"
+                           Content="Second Language Answer" />
+                    <TextBox Name="SecondLangInputTextBox1" Height="40" Width="250" HorizontalAlignment="Left"
+                             VerticalAlignment="Top" FontSize="18" Margin="32,120,0,0" 
+                             TextAlignment="Left" BorderBrush="Black" VerticalContentAlignment="Center"/>
+                    <Label Name="firstLangInputTextBox2Label" Height="30" Width="Auto" 
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="28,0,0,155"
+                           Content="First Language Word #2 (optional)" />
+                    <TextBox Name="firstLangInputTextBox2" Height="40" Width="250" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" FontSize="18" Margin="32,0,0,120" 
+                             TextAlignment="Left" BorderBrush="Black" VerticalContentAlignment="Center"/>
+                    <Label Name="SecondLangInputTextBox2Label" Height="30" Width="Auto" 
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="28,0,0,85"
+                           Content="Second Language Answer #2 (optional)" />
+                    <TextBox Name="SecondLangInputTextBox2" Height="40" Width="250" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" FontSize="18" Margin="32,0,0,50" 
+                             TextAlignment="Left" BorderBrush="Black" VerticalContentAlignment="Center"/>
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Center" Margin="282,120,0,0"
+                            Height="40" Width="200" Content="Add to collection"
+                            PreviewMouseDown="AddNewCardButton_PreviewMouseDown" Name="AddNewCardButton"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
 
     </Grid>
 </Window>

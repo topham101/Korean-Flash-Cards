@@ -27,6 +27,10 @@ namespace Korean_Flash_Cards
     /// 
     /// 5. Text to say the answer was wrong.
     /// 
+    /// 6. MVVM
+    /// 
+    /// 7. Choose first/second language mode
+    /// 
     /// ---------------------------------------
     /// </summary>
     public partial class MainWindow : Window
@@ -38,7 +42,7 @@ namespace Korean_Flash_Cards
             get { return _UnreadCardsCount; }
             set {
                 _UnreadCardsCount = value;
-                flashCardsLeftCounter.Content = value; }
+                FlashCardsLeftCounter.Content = value; }
         }
         private string answerString;
 
@@ -80,15 +84,15 @@ namespace Korean_Flash_Cards
         /// <param name="newFlashCard">The new FlashCard</param>
         private void refreshFlashCardInterface(flashCard newFlashCard)
         {
-            inputTextBox.Clear();
+            InputTextBox.Clear();
             Random rnd = new Random();
             int firstOrSecondLang = rnd.Next(1);
-            flashCardTextBox.Content = (firstOrSecondLang == 0 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
+            FlashCardTextBox.Content = (firstOrSecondLang == 0 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
             answerString = (firstOrSecondLang == 1 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
 
             // Sets keyboard focus to the input box
             Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(delegate ()
-            { inputTextBox.Focus(); Keyboard.Focus(inputTextBox); }));
+            { InputTextBox.Focus(); Keyboard.Focus(InputTextBox); }));
         }
 
         /// <summary>
@@ -108,21 +112,21 @@ namespace Korean_Flash_Cards
             if (!answerDisplayed)
             {
                 // If the answer is correct . . .
-                if (inputTextBox.Text.ToLower() == answerString.ToLower())
+                if (InputTextBox.Text.ToLower() == answerString.ToLower())
                 {
                     newCard(true);
-                    inputTextBox.BorderBrush = Brushes.Black;
-                    inputTextBox.BorderThickness = new Thickness(1);
+                    InputTextBox.BorderBrush = Brushes.Black;
+                    InputTextBox.BorderThickness = new Thickness(1);
                 }
                 else // If the answer is incorrect . . .
                 {
-                    inputTextBox.BorderBrush = Brushes.Red;
-                    inputTextBox.BorderThickness = new Thickness(2);
+                    InputTextBox.BorderBrush = Brushes.Red;
+                    InputTextBox.BorderThickness = new Thickness(2);
                 }
             }
             else
             {
-                checkAnswerButton.Content = "Check Answer";
+                CheckAnswerButton.Content = "Check Answer";
                 if (UnreadCardsCount > 1)
                     newCard(false);
                 else newCard(true);
@@ -138,16 +142,25 @@ namespace Korean_Flash_Cards
             if (e.Key == Key.Enter)
                 checkInputToAnswer();
         }
+
+        private void AddNewCardButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (FirstLangInputTextBox1.Text != "" && SecondLangInputTextBox1.Text != "") // If there is a first and second language input
+            {
+                flashCardList.Add(new flashCard(FirstLangInputTextBox1.Text, SecondLangInputTextBox1.Text,
+                    firstLangInputTextBox2.Text, SecondLangInputTextBox2.Text));
+            }
+        }
         private void skipAnswerButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (answerDisplayed)
             {
-                checkAnswerButton.Content = "Check Answer";
+                CheckAnswerButton.Content = "Check Answer";
             }
             else
             {
-                checkAnswerButton.Content = "Next Card";
-                inputTextBox.Text = answerString;
+                CheckAnswerButton.Content = "Next Card";
+                InputTextBox.Text = answerString;
                 answerDisplayed = true;
             }
         }
