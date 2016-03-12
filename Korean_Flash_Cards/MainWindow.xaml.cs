@@ -142,7 +142,6 @@ namespace Korean_Flash_Cards
             if (e.Key == Key.Enter)
                 checkInputToAnswer();
         }
-
         private void AddNewCardButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (FirstLangInputTextBox1.Text != "" && SecondLangInputTextBox1.Text != "") // If there is a first and second language input
