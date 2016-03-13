@@ -21,8 +21,6 @@ namespace Korean_Flash_Cards
     /// ---------------------------------------
     /// THINGS TO DO: 
     /// 
-    /// 3. Think of a better way to read in new flash cards.
-    /// 
     /// 4. Think of more things to do . . .
     /// 
     /// 5. Text to say the answer was wrong.
@@ -35,7 +33,7 @@ namespace Korean_Flash_Cards
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<flashCard> flashCardList;
+        private List<FlashCard> flashCardList;
         private int _UnreadCardsCount = 0, curFlashCardIndex = -1, lastFlashCardIndex = -1;
         private bool answerDisplayed = false;
         public int UnreadCardsCount {
@@ -44,16 +42,16 @@ namespace Korean_Flash_Cards
                 _UnreadCardsCount = value;
                 FlashCardsLeftCounter.Content = value; }
         }
-        private string answerString;
+        private string answerString, optAnswerString;
 
         public MainWindow()
         {
             DataContext = this;
-            flashCardList = new List<flashCard>();
-            flashCardList.Add(new flashCard("Hello", "안녕하세요"));
-            flashCardList.Add(new flashCard("Hello2", "안녕하세요2"));
-            flashCardList.Add(new flashCard("Hello3", "안녕하세요3"));
-            flashCardList.Add(new flashCard("Hello4", "안녕하세요4"));
+            flashCardList = new List<FlashCard>();
+            flashCardList.Add(new FlashCard("Hello", "안녕하세요"));
+            flashCardList.Add(new FlashCard("Hello2", "안녕하세요2"));
+            flashCardList.Add(new FlashCard("Hello3", "안녕하세요3"));
+            flashCardList.Add(new FlashCard("Hello4", "안녕하세요4"));
             InitializeComponent();
             newCard(false);
         }
@@ -65,13 +63,13 @@ namespace Korean_Flash_Cards
                 flashCardList[curFlashCardIndex].setComplete();
 
             // Checks that there are any uncompleted flashCards left. - If not the cards are reset.
-            if (NoOfUnreadCardsLeft() == 0)
+            if (countUnreadCardsLeft() == 0)
                 resetAllFlashCards();
 
             //Finds a new card that has not been completed.
             lastFlashCardIndex = curFlashCardIndex;
             while (true)
-                if (!flashCardList.GetRandomExc(out curFlashCardIndex, lastFlashCardIndex).completed)
+                if (!flashCardList.GetRandomExc(ref curFlashCardIndex).completed)
                     break;
 
             // Sets the flashCard at the specified index to completed
@@ -82,13 +80,28 @@ namespace Korean_Flash_Cards
         /// Sets the UI and answerString for the new FlashCard.
         /// </summary>
         /// <param name="newFlashCard">The new FlashCard</param>
-        private void refreshFlashCardInterface(flashCard newFlashCard)
+        private void refreshFlashCardInterface(FlashCard newFlashCard)
         {
             InputTextBox.Clear();
             Random rnd = new Random();
-            int firstOrSecondLang = rnd.Next(1);
-            FlashCardTextBox.Content = (firstOrSecondLang == 0 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
-            answerString = (firstOrSecondLang == 1 ? newFlashCard.firstLanguage : newFlashCard.secondLanguage);
+            int firstOrSecondLang = rnd.Next(-1, 1);
+
+            if (firstOrSecondLang == 0)
+            {
+                if (newFlashCard.firstLanguageOptional != "")
+                    FlashCardTextBox.Content = "  " + newFlashCard.firstLanguage + " / " + newFlashCard.firstLanguageOptional + "  ";
+                else FlashCardTextBox.Content = "  " + newFlashCard.firstLanguage + "  ";
+                answerString = newFlashCard.secondLanguage;
+                optAnswerString = newFlashCard.secondLanguageOptional;
+            }
+            else
+            {
+                if (newFlashCard.firstLanguageOptional != "")
+                    FlashCardTextBox.Content = "  " + newFlashCard.secondLanguage + " / " + newFlashCard.secondLanguageOptional + "  ";
+                else FlashCardTextBox.Content = "  " + newFlashCard.secondLanguage + "  ";
+                answerString = newFlashCard.firstLanguage;
+                optAnswerString = newFlashCard.firstLanguageOptional;
+            }
 
             // Sets keyboard focus to the input box
             Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(delegate ()
@@ -101,18 +114,19 @@ namespace Korean_Flash_Cards
         private void resetAllFlashCards()
         {
             flashCardList.All(x => { x.setIncomplete(); return true; });
-            NoOfUnreadCardsLeft();
+            countUnreadCardsLeft();
         }
 
         /// <summary>
         /// Check's if answer input is the same as answerString.
+        /// OR moves to the next card the card has been skipped.
         /// </summary>
         private void checkInputToAnswer()
         {
             if (!answerDisplayed)
             {
                 // If the answer is correct . . .
-                if (InputTextBox.Text.ToLower() == answerString.ToLower())
+                if (InputTextBox.Text.ToLower() == answerString.ToLower() || ( (InputTextBox.Text.ToLower() == optAnswerString.ToLower()) && (optAnswerString != "") ))
                 {
                     newCard(true);
                     InputTextBox.BorderBrush = Brushes.Black;
@@ -133,21 +147,26 @@ namespace Korean_Flash_Cards
                 answerDisplayed = false;
             }
         }
-        private void checkAnswerButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            checkInputToAnswer();
-        }
+
         private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 checkInputToAnswer();
         }
+        private void checkAnswerButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            checkInputToAnswer();
+        }
         private void AddNewCardButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (FirstLangInputTextBox1.Text != "" && SecondLangInputTextBox1.Text != "") // If there is a first and second language input
             {
-                flashCardList.Add(new flashCard(FirstLangInputTextBox1.Text, SecondLangInputTextBox1.Text,
-                    firstLangInputTextBox2.Text, SecondLangInputTextBox2.Text));
+                flashCardList.Add(new FlashCard(FirstLangInputTextBox1.Text, SecondLangInputTextBox1.Text,
+                        FirstLangInputTextBox2.Text, SecondLangInputTextBox2.Text));
+                FirstLangInputTextBox1.Clear();
+                FirstLangInputTextBox2.Clear();
+                SecondLangInputTextBox1.Clear();
+                SecondLangInputTextBox2.Clear();
             }
         }
         private void skipAnswerButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -159,14 +178,16 @@ namespace Korean_Flash_Cards
             else
             {
                 CheckAnswerButton.Content = "Next Card";
-                InputTextBox.Text = answerString;
+                if (optAnswerString != "")
+                    InputTextBox.Text = answerString + " / " + optAnswerString;
+                else InputTextBox.Text = answerString;
                 answerDisplayed = true;
             }
         }
-        private int NoOfUnreadCardsLeft()
+        private int countUnreadCardsLeft()
         {
             int unreadCardsLeftCount = 0;
-            foreach (flashCard item in flashCardList)
+            foreach (FlashCard item in flashCardList)
                 if (!item.completed)
                     unreadCardsLeftCount++;
             UnreadCardsCount = unreadCardsLeftCount;

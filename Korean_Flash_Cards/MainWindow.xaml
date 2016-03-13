@@ -20,7 +20,7 @@
                     <Button Name="SkipAnswerButton" HorizontalAlignment="Center" Margin="180,0,0,0" 
                             VerticalAlignment="Center" Content="Show Me" Width="120" Height="36" 
                             PreviewMouseDown="skipAnswerButton_PreviewMouseDown"/>
-                    <Label Name="FlashCardTextBox" Height="48" Width="340" HorizontalAlignment="Center"
+                    <Label Name="FlashCardTextBox" Height="48" Width="Auto" HorizontalAlignment="Center"
                             VerticalAlignment="Bottom" FontSize="24" Margin="0, 0, 0, 72" 
                             BorderThickness="1" BorderBrush="Black" HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"/>
@@ -44,10 +44,10 @@
                     <TextBox Name="SecondLangInputTextBox1" Height="40" Width="250" HorizontalAlignment="Left"
                              VerticalAlignment="Top" FontSize="18" Margin="32,120,0,0" 
                              TextAlignment="Left" BorderBrush="Black" VerticalContentAlignment="Center"/>
-                    <Label Name="firstLangInputTextBox2Label" Height="30" Width="Auto" 
+                    <Label Name="FirstLangInputTextBox2Label" Height="30" Width="Auto" 
                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="28,0,0,155"
                            Content="First Language Word #2 (optional)" />
-                    <TextBox Name="firstLangInputTextBox2" Height="40" Width="250" HorizontalAlignment="Left"
+                    <TextBox Name="FirstLangInputTextBox2" Height="40" Width="250" HorizontalAlignment="Left"
                              VerticalAlignment="Bottom" FontSize="18" Margin="32,0,0,120" 
                              TextAlignment="Left" BorderBrush="Black" VerticalContentAlignment="Center"/>
                     <Label Name="SecondLangInputTextBox2Label" Height="30" Width="Auto" 
